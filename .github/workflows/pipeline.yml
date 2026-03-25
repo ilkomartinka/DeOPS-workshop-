@@ -12,21 +12,28 @@ jobs:
 
     strategy: 
       matrix:
-        city: [London, Prague, Tokyo]
+        city: [London, Prague, New_York, Tokyo] # New_York místo "New York"
      
     steps: 
       - name: Fetch weather 
         run: | 
           CITY="${{ matrix.city }}"
+          
+          # nahradíme podtržítko mezerou pro API
           CITY_FORMATTED=$(echo "$CITY" | sed 's/_/ /g')
+          
+          # URL encoding mezer
+          CITY_ENCODED=$(echo "$CITY_FORMATTED" | sed 's/ /%20/g')
 
-          WEATHER=$(curl -s "wttr.in/$CITY_FORMATTED?format=3")
+          WEATHER=$(curl -s "wttr.in/$CITY_ENCODED?format=3")
           echo "Weather in $CITY_FORMATTED: $WEATHER"
 
+          # GitHub Step Summary
           echo "## $CITY_FORMATTED Weather" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**$WEATHER**" >> $GITHUB_STEP_SUMMARY
 
+          # Soubor pro artifact
           echo "$CITY_FORMATTED: $WEATHER" >> weather.txt
 
       - name: Upload artifact
