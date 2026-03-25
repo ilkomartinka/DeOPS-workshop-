@@ -3,7 +3,7 @@ name: Weather Report
 
 on: 
   shedule:
-    - cron: "0 9 * * *"
+    - cron: "* * * * *"
   push: 
     branches: [main]
   workflow_dispatch:
