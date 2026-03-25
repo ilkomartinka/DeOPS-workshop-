@@ -12,7 +12,7 @@ jobs:
 
     strategy: 
       matrix:
-        city: [London, Prague, New_York, Tokyo]
+        city: [London, Prague, Tokyo]
      
     steps: 
       - name: Fetch weather 
